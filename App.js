@@ -1,19 +1,40 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation'
+import SplashScreen from './src/Screens/SplashScreen'
+import Login from './src/Screens/Login'
+import Home from './src/Screens/Home'
+//console.disableYellowBox = true
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+const InitialScreen = createStackNavigator({
+  SplashScreen: {
+    screen: SplashScreen,
+    navigationOptions: {
+      header: null
+    }
+  }
+})
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const LoginRegister = createStackNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      header: null
+    }
+  }
+})
+
+const Internal = createStackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      header: null
+    }
+  }
+})
+
+const Root = createSwitchNavigator({
+  InitialScreen,
+  LoginRegister,
+  Internal
+})
+
+export default createAppContainer(Root)
