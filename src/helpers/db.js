@@ -9,16 +9,16 @@ export const initializeDb = async () => {
     ]))
 
     await AsyncStorage.getItem('users') || await AsyncStorage.setItem('users', JSON.stringify([
-        { id: 1, username: 'client@user.com', password: '12345', name: 'Sample User' }
+        { id: 1, email: 'client@user.com', password: '12345', name: 'Sample User' }
     ]))
 }
 
-export const login = async (username, password) => {
+export const login = async (email, password) => {
     const users = await AsyncStorage.getItem('users')
     const jsonUsers = JSON.parse(users)
 
     for (let i = 0; i < jsonUsers.length; i++) {
-        if (jsonUsers[i].username == username && jsonUsers[i].password == password) {
+        if (jsonUsers[i].email == email && jsonUsers[i].password == password) {
             return jsonUsers[i]
         }
     }

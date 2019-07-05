@@ -1,22 +1,52 @@
 import React, { Component } from 'react'
-import { StatusBar, Keyboard } from 'react-native'
+import { StatusBar, Keyboard, ActivityIndicator } from 'react-native'
 import styled from 'styled-components'
 import { login } from '../helpers/db'
 
-/*
-<Button
-                    onPress={this.onPressLearnMore}
-                    title="Learn More"
-                    color="#841584"
-                    accessibilityLabel="Learn more about this purple button"
-                />*/
-
 class Login extends Component {
-    async onPressLearnMore() {
+    state = {
+        email: '',
+        password: '',
+        isLoading: false
+    }
 
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    handleChange = type => text => {
+        this.setState({
+            [type]: text
+        })
+    }
+
+    handleLogin = async () => {
+        const { email, password } = this.state
+
+        if (email == '' || password == '') return
+
+        this.setState({
+            isLoading: true
+        })
+
+        await this.sleep(3000)
+
+        const response = await login(email, password)
+
+        if (response === -1) {
+            alert('Credenciais inválidas')
+
+            this.setState({
+                isLoading: false
+            })
+            return
+        }
+
+        this.props.navigation.navigate('Internal')
     }
 
     render() {
+        const { email, password, isLoading } = this.state
         return (
             <ContainerSafeArea>
                 <StatusBar barStyle='light-content' />
@@ -25,26 +55,44 @@ class Login extends Component {
                         <Container>
                             <LogoContainer>
                                 <Logo>Insert Logo Here</Logo>
-                                <Title>Account Information</Title>
+                                <Title>Bem-Vindo(a)</Title>
                             </LogoContainer>
                             <InfoContainer>
-                                <Input
-                                    placeholder='E-mail'
-                                    placeholderTextColor='rgba(255, 255, 255, 0.8)'
-                                    keyboardType='email-address'
-                                    returnKeyType='next'
-                                    autoCorrect={false}
-                                    onSubmitEditing={() => this.refs.inputPassword.focus()}
-                                    keyboardShouldPersistTaps={'always'}
-                                />
-                                <Input
-                                    placeholder='Senha'
-                                    placeholderTextColor='rgba(255, 255, 255, 0.8)'
-                                    returnKeyType={'go'}
-                                    autoCorrect={false}
-                                    secureTextEntry
-                                    ref={'inputPassword'}
-                                />
+                                {
+                                    isLoading
+                                        ?
+                                        <ActivityIndicator size='large' color='#f7c744' />
+                                        :
+                                        <React.Fragment>
+                                            <Input
+                                                placeholder='E-mail'
+                                                placeholderTextColor='rgba(255, 255, 255, 0.8)'
+                                                returnKeyType='next'
+                                                autoCorrect={false}
+                                                autoCapitalize='none'
+                                                keyboardType='email-address'
+                                                onSubmitEditing={() => this.refs.inputPassword.focus()}
+                                                blurOnSubmit={false}
+                                                onChangeText={this.handleChange('email')}
+                                                value={email}
+                                            />
+                                            <Input
+                                                placeholder='Senha'
+                                                placeholderTextColor='rgba(255, 255, 255, 0.8)'
+                                                returnKeyType='go'
+                                                autoCorrect={false}
+                                                autoCapitalize='none'
+                                                onSubmitEditing={() => this.handleLogin()}
+                                                secureTextEntry
+                                                ref={'inputPassword'}
+                                                onChangeText={this.handleChange('password')}
+                                                value={password}
+                                            />
+                                            <Button onPress={this.handleLogin}>
+                                                <ButtonText>Entrar</ButtonText>
+                                            </Button>
+                                        </React.Fragment>
+                                }
                             </InfoContainer>
                         </Container>
                     </ContainerTouchNoFeed>
@@ -110,6 +158,18 @@ const Input = styled.TextInput`
     color: #fff;
     padding-horizontal: 10px;
     margin-bottom: 20px;
+`
+
+const Button = styled.TouchableOpacity`
+    background-color: #f7c744;
+    padding-vertical: 15px;
+`
+
+const ButtonText = styled.Text`
+    text-align: center;
+    color: rgb(32, 53, 70);
+    font-weight: bold;
+    font-size: 18;
 `
 
 export default Login
