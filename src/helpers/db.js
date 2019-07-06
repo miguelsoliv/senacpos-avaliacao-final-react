@@ -2,10 +2,10 @@ import { AsyncStorage } from 'react-native';
 
 export const initializeDb = async () => {
     await AsyncStorage.getItem('news') || await AsyncStorage.setItem('news', JSON.stringify([
-        { id: 1, title: 'a', text: 'b' },
-        { id: 2, title: 'b', text: 'a' },
-        { id: 3, title: "Limpeza das Caixas D'Água", text: 'No dia 24/09/2019 será realizada a limpeza das \
-        caixas. Favor lembrar que, devido à limpeza, uma possível falta de água poderá ocorrer.' }
+        { id: 1, date: '01-07-2019', title: 'Título Notícia 1', text: 'texttexttexttexttexttexttexttexttexttexttexttexttexttext' },
+        { id: 2, date: '03-07-2019', title: 'Título Notícia 2', text: 'Notice 2 text' },
+        { id: 3, date: '06-07-2019', title: "Título Notícia 3", text: 'Multiline text for notice 3 \
+        with id = 3.' }
     ]))
 
     await AsyncStorage.getItem('users') || await AsyncStorage.setItem('users', JSON.stringify([
@@ -24,4 +24,9 @@ export const login = async (email, password) => {
     }
 
     return -1
+}
+
+export const getNews = async () => {
+    const news = await AsyncStorage.getItem('news')
+    return news
 }

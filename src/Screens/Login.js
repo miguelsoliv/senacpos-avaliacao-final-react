@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { StatusBar, Keyboard, ActivityIndicator } from 'react-native'
+import { StatusBar, Keyboard, ActivityIndicator, Alert } from 'react-native'
 import styled from 'styled-components'
 import { login } from '../helpers/db'
 
 class Login extends Component {
     state = {
-        email: '',
-        password: '',
+        email: 'client@user.com',
+        password: '12345',
         isLoading: false
     }
 
@@ -34,7 +34,7 @@ class Login extends Component {
         const response = await login(email, password)
 
         if (response === -1) {
-            alert('Credenciais inválidas')
+            Alert.alert('Credenciais inválidas', 'E-mail ou senha incorreta')
 
             this.setState({
                 isLoading: false
