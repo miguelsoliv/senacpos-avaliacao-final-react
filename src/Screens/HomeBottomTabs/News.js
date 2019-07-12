@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { FlatList, Platform, StatusBar, ActivityIndicator, View } from 'react-native';
+import { FlatList, Platform, StatusBar, ActivityIndicator, BackHandler, Alert } from 'react-native';
 import styled from 'styled-components'
 import { getNews } from '../../helpers/db'
 import FlatListItem from '../../components/FlatListItem'
@@ -15,14 +15,37 @@ class News extends PureComponent {
     }
 
     async componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            Alert.alert(
+                'Confirmação',
+                'Deseja sair do aplicativo?',
+                [
+                    {
+                        text: 'Não',
+                        style: 'cancel'
+                    },
+                    {
+                        text: 'Sim',
+                        onPress: () => { BackHandler.exitApp() }
+                    },
+                ]
+            );
+
+            return true;
+        });
+
         const newsList = await getNews()
 
-        await this.sleep(3000)
+        await this.sleep(1500)
 
         this.setState({
             data: JSON.parse(newsList),
             isLoading: false
         })
+    }
+
+    componentWillUnmount() {
+        this.backHandler.remove()
     }
 
     applyKeyExtractor = (item) => "" + item.id;
@@ -40,22 +63,15 @@ class News extends PureComponent {
         )
     }
 
-    renderFooter = () => {
-        if (!this.state.isLoading) return null
-
-        return (
-            <View style={{
-                paddingVertical: 20,
-                borderTopWidth: 1,
-                borderTopColor: '#ced0ce',
-                alignContent: "center"
-            }}>
-                <ActivityIndicator size='large' />
-            </View>
-        )
-    }
-
     render() {
+        if (this.state.isLoading) {
+            return (
+                <LoadingContainer>
+                    <ActivityIndicator size='large' color='#f7c744' />
+                </LoadingContainer>
+            )
+        }
+
         return (
             <FlatList
                 style={{
@@ -81,6 +97,13 @@ const Separator = styled.View`
     margin-right: 10px;
     margin-bottom: 5px;
     margin-top: 5px;
+`
+
+const LoadingContainer = styled.View`
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: #325370;
 `
 
 export default News

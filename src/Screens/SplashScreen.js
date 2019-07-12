@@ -1,33 +1,49 @@
 import React, { Component } from 'react'
+import { Animated, Image } from 'react-native'
 import styled from 'styled-components'
 import { initializeDb } from '../helpers/db'
 
 class SplashScreen extends Component {
-    async componentDidMount() {
-        await this.sleep(3000);
+    state = {
+        fadeAnim: new Animated.Value(0)
+    }
 
-        await initializeDb()
-        this.props.navigation.navigate('LoginRegister')
+    componentDidMount() {
+        initializeDb()
+
+        Animated.timing(this.state.fadeAnim,
+            {
+                toValue: 1,
+                duration: 1000
+            }
+        ).start(() => {
+            setTimeout(() => {
+                Animated.timing(this.state.fadeAnim,
+                    {
+                        toValue: 0,
+                        duration: 1000
+                    }
+                ).start(() => this.props.navigation.navigate('LoginRegister'))
+            }, 1500)
+        })
     }
 
     render() {
         return (
-            <StyledImage
-                source={require('../images/loading.gif')}
-                resizeMode="contain"
-            />
+            <Container>
+                <Animated.View style={{ opacity: this.state.fadeAnim }}>
+                    <Image source={require('../images/logo.png')} />
+                </Animated.View>
+            </Container>
         )
-    }
-
-    sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms))
     }
 }
 
-const StyledImage = styled.Image`
+const Container = styled.View`
     flex: 1;
-    width: null;
-    height: null;
+    background-color: #325370;
+    align-items: center;
+    justify-content: center;
 `
 
 export default SplashScreen    

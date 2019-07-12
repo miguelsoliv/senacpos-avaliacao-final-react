@@ -4,8 +4,7 @@ export const initializeDb = async () => {
     await AsyncStorage.getItem('news') || await AsyncStorage.setItem('news', JSON.stringify([
         { id: 1, date: '01-07-2019', title: 'Título Notícia 1', text: 'texttexttexttexttexttexttexttexttexttexttexttexttexttext' },
         { id: 2, date: '03-07-2019', title: 'Título Notícia 2', text: 'Notice 2 text' },
-        { id: 3, date: '06-07-2019', title: "Título Notícia 3", text: 'Multiline text for notice 3 \
-        with id = 3.' }
+        { id: 3, date: '06-07-2019', title: "Título Notícia 3", text: 'Text for notice 3 with id = 3.' }
     ]))
 
     await AsyncStorage.getItem('users') || await AsyncStorage.setItem('users', JSON.stringify([

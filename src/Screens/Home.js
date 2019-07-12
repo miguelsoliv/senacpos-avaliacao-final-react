@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
 import News from './HomeBottomTabs/News'
 import TalkToUs from './HomeBottomTabs/TalkToUs'
-import Profile from './HomeBottomTabs/Profile'
+import Settings from './HomeBottomTabs/Settings'
 
 export default createBottomTabNavigator({
     News: {
@@ -24,10 +24,10 @@ export default createBottomTabNavigator({
             )
         }
     },
-    Profile: {
-        screen: Profile,
+    Settings: {
+        screen: Settings,
         navigationOptions: {
-            tabBarLabel: 'Perfil',
+            tabBarLabel: 'Opções',
             tabBarIcon: ({ tintColor }) => (
                 <Icon name="md-settings" color={tintColor} size={24} />
             )
@@ -40,11 +40,11 @@ export default createBottomTabNavigator({
             activeTintColor: '#00695c',
             inactiveTintColor: 'grey',
             labelStyle: {
-                fontSize: 13,
+                fontSize: 13
             },
             style: {
-                backgroundColor: '#ffcc80',
-            },
+                backgroundColor: 'rgba(247, 199, 68, 0.85)'
+            }
         }
     }
 )

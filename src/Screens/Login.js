@@ -1,13 +1,23 @@
 import React, { Component } from 'react'
-import { StatusBar, Keyboard, ActivityIndicator, Alert } from 'react-native'
+import { Image, StatusBar, Keyboard, ActivityIndicator, Alert, Animated } from 'react-native'
 import styled from 'styled-components'
 import { login } from '../helpers/db'
 
 class Login extends Component {
     state = {
+        fadeAnim: new Animated.Value(0),
         email: 'client@user.com',
         password: '12345',
         isLoading: false
+    }
+
+    componentDidMount() {
+        Animated.timing(this.state.fadeAnim,
+            {
+                toValue: 1,
+                duration: 1000
+            }
+        ).start()
     }
 
     sleep(ms) {
@@ -29,7 +39,7 @@ class Login extends Component {
             isLoading: true
         })
 
-        await this.sleep(3000)
+        await this.sleep(1500)
 
         const response = await login(email, password)
 
@@ -52,10 +62,9 @@ class Login extends Component {
                 <StatusBar barStyle='light-content' />
                 <ContainerKeyboardAvoid behavior='padding'>
                     <ContainerTouchNoFeed onPress={Keyboard.dismiss}>
-                        <Container>
+                        <Container as={Animated.View} style={{ opacity: this.state.fadeAnim }}>
                             <LogoContainer>
-                                <Logo>Insert Logo Here</Logo>
-                                <Title>Bem-Vindo(a)</Title>
+                                <Image source={require('../images/welcome_image.png')} />
                             </LogoContainer>
                             <InfoContainer>
                                 {
@@ -136,20 +145,6 @@ const InfoContainer = styled.View`
     bottom: 0;
     height: 200;
     padding: 20px;
-`
-
-const Logo = styled.Text`
-    font-family: serif;
-    font-style: italic;
-    font-size: 24;
-`
-
-const Title = styled.Text`
-    color: #f7c744;
-    font-size: 18;
-    text-align: center;
-    margin-top: 5;
-    opacity: 0.9;
 `
 
 const Input = styled.TextInput`

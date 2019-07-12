@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StatusBar, Platform, BackHandler, Alert } from 'react-native'
 
-class News extends Component {
+class Settings extends Component {
     async componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             Alert.alert(
@@ -32,10 +32,10 @@ class News extends Component {
                     Platform.OS === 'android'
                         ? StatusBar.currentHeight : 20,
             }}>
-                <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>Talk To Us</Text>
+                <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>Settings</Text>
             </View>
         )
     }
 }
 
-export default News
+export default Settings
