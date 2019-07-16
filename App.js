@@ -2,7 +2,6 @@ import { createAppContainer, createStackNavigator, createSwitchNavigator } from 
 import SplashScreen from './src/Screens/SplashScreen'
 import Login from './src/Screens/Login'
 import Home from './src/Screens/Home'
-//console.disableYellowBox = true
 
 const InitialScreen = createStackNavigator({
   SplashScreen: {
@@ -32,8 +31,8 @@ const Internal = createStackNavigator({
 })
 
 const Root = createSwitchNavigator({
-  InitialScreen,
-  LoginRegister,
+  //InitialScreen,
+  //LoginRegister,
   Internal
 })
 

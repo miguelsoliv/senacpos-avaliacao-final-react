@@ -8,7 +8,7 @@ class News extends PureComponent {
     state = {
         data: [],
         isLoading: true
-    };
+    }
 
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
@@ -27,16 +27,16 @@ class News extends PureComponent {
                     {
                         text: 'Sim',
                         onPress: () => { BackHandler.exitApp() }
-                    },
+                    }
                 ]
-            );
+            )
 
-            return true;
-        });
+            return true
+        })
 
         const newsList = await getNews()
 
-        await this.sleep(1500)
+        await this.sleep(1250)
 
         this.setState({
             data: JSON.parse(newsList),
@@ -48,14 +48,16 @@ class News extends PureComponent {
         this.backHandler.remove()
     }
 
-    applyKeyExtractor = (item) => "" + item.id;
+    applyKeyExtractor = (item) => "" + item.id
 
-    renderItens = ({ item }) => (
-        <FlatListItem
-            title={item.title}
-            text={item.text}
-        />
-    );
+    renderItens = ({ item }) => {
+        return (
+            <FlatListItem
+                title={item.title}
+                text={item.text}
+            />
+        )
+    }
 
     renderSeparator = () => {
         return (

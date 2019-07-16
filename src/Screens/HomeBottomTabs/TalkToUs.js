@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StatusBar, Platform, BackHandler, Alert } from 'react-native'
 
 class News extends Component {
-    async componentDidMount() {
+    componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             Alert.alert(
                 'Confirmação',
@@ -15,12 +15,12 @@ class News extends Component {
                     {
                         text: 'Sim',
                         onPress: () => { BackHandler.exitApp() }
-                    },
+                    }
                 ]
-            );
+            )
 
-            return true;
-        });
+            return true
+        })
     }
 
     render() {
@@ -30,7 +30,7 @@ class News extends Component {
                 flex: 1, alignItems: 'center',
                 paddingTop:
                     Platform.OS === 'android'
-                        ? StatusBar.currentHeight : 20,
+                        ? StatusBar.currentHeight : 20
             }}>
                 <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>Talk To Us</Text>
             </View>

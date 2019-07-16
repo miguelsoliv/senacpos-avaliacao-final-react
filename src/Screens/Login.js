@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Image, StatusBar, Keyboard, ActivityIndicator, Alert, Animated } from 'react-native'
+import {
+    Image, StatusBar, Keyboard, ActivityIndicator, Alert,
+    Animated, KeyboardAvoidingView, TouchableWithoutFeedback
+} from 'react-native'
 import styled from 'styled-components'
 import { login } from '../helpers/db'
 
@@ -15,7 +18,7 @@ class Login extends Component {
         Animated.timing(this.state.fadeAnim,
             {
                 toValue: 1,
-                duration: 1000
+                duration: 750
             }
         ).start()
     }
@@ -39,7 +42,7 @@ class Login extends Component {
             isLoading: true
         })
 
-        await this.sleep(1500)
+        await this.sleep(1250)
 
         const response = await login(email, password)
 
@@ -60,8 +63,8 @@ class Login extends Component {
         return (
             <ContainerSafeArea>
                 <StatusBar barStyle='light-content' />
-                <ContainerKeyboardAvoid behavior='padding'>
-                    <ContainerTouchNoFeed onPress={Keyboard.dismiss}>
+                <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
+                    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
                         <Container as={Animated.View} style={{ opacity: this.state.fadeAnim }}>
                             <LogoContainer>
                                 <Image source={require('../images/welcome_image.png')} />
@@ -104,8 +107,8 @@ class Login extends Component {
                                 }
                             </InfoContainer>
                         </Container>
-                    </ContainerTouchNoFeed>
-                </ContainerKeyboardAvoid>
+                    </TouchableWithoutFeedback>
+                </KeyboardAvoidingView>
             </ContainerSafeArea>
         )
     }
@@ -114,22 +117,10 @@ class Login extends Component {
 const ContainerSafeArea = styled.SafeAreaView`
     flex: 1;
     background-color: #325370;
-    flex-direction: column;
-`
-
-const ContainerKeyboardAvoid = styled.KeyboardAvoidingView`
-    flex: 1;
-    flex-direction: column;
-`
-
-const ContainerTouchNoFeed = styled.TouchableWithoutFeedback`
-    flex: 1;
-    flex-direction: column;
 `
 
 const Container = styled.View`
     flex: 1;
-    flex-direction: column;
 `
 
 const LogoContainer = styled.View`
@@ -150,7 +141,7 @@ const InfoContainer = styled.View`
 const Input = styled.TextInput`
     height: 40;
     background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
+    color: white;
     padding-horizontal: 10px;
     margin-bottom: 20px;
 `

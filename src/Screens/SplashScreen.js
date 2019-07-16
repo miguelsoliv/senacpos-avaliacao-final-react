@@ -14,17 +14,17 @@ class SplashScreen extends Component {
         Animated.timing(this.state.fadeAnim,
             {
                 toValue: 1,
-                duration: 1000
+                duration: 750
             }
         ).start(() => {
             setTimeout(() => {
                 Animated.timing(this.state.fadeAnim,
                     {
                         toValue: 0,
-                        duration: 1000
+                        duration: 750
                     }
                 ).start(() => this.props.navigation.navigate('LoginRegister'))
-            }, 1500)
+            }, 1250)
         })
     }
 

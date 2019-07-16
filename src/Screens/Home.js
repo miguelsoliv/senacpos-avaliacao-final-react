@@ -11,7 +11,7 @@ export default createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="md-home" color={tintColor} size={24} />
+                <Icon name='md-home' color={tintColor} size={24} />
             )
         }
     },
@@ -20,7 +20,7 @@ export default createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Fale conosco',
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="md-people" color={tintColor} size={24} />
+                <Icon name='md-people' color={tintColor} size={24} />
             )
         }
     },
@@ -29,13 +29,13 @@ export default createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Opções',
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="md-settings" color={tintColor} size={24} />
+                <Icon name='md-settings' color={tintColor} size={24} />
             )
         }
     }
 },
     {
-        backBehavior: "none",
+        backBehavior: 'none',
         tabBarOptions: {
             activeTintColor: '#00695c',
             inactiveTintColor: 'grey',
