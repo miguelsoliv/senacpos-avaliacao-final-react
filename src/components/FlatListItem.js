@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 class FlatListItem extends PureComponent {

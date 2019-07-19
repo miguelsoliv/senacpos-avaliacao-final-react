@@ -4,6 +4,7 @@ import {
     Animated, KeyboardAvoidingView, TouchableWithoutFeedback
 } from 'react-native'
 import styled from 'styled-components'
+import { LinearGradient } from 'expo-linear-gradient'
 import { login } from '../helpers/db'
 
 class Login extends Component {
@@ -66,46 +67,51 @@ class Login extends Component {
                 <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
                     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
                         <Container as={Animated.View} style={{ opacity: this.state.fadeAnim }}>
-                            <LogoContainer>
-                                <Image source={require('../images/welcome_image.png')} />
-                            </LogoContainer>
-                            <InfoContainer>
-                                {
-                                    isLoading
-                                        ?
-                                        <ActivityIndicator size='large' color='#f7c744' />
-                                        :
-                                        <React.Fragment>
-                                            <Input
-                                                placeholder='E-mail'
-                                                placeholderTextColor='rgba(255, 255, 255, 0.8)'
-                                                returnKeyType='next'
-                                                autoCorrect={false}
-                                                autoCapitalize='none'
-                                                keyboardType='email-address'
-                                                onSubmitEditing={() => this.refs.inputPassword.focus()}
-                                                blurOnSubmit={false}
-                                                onChangeText={this.handleChange('email')}
-                                                value={email}
-                                            />
-                                            <Input
-                                                placeholder='Senha'
-                                                placeholderTextColor='rgba(255, 255, 255, 0.8)'
-                                                returnKeyType='go'
-                                                autoCorrect={false}
-                                                autoCapitalize='none'
-                                                onSubmitEditing={() => this.handleLogin()}
-                                                secureTextEntry
-                                                ref={'inputPassword'}
-                                                onChangeText={this.handleChange('password')}
-                                                value={password}
-                                            />
-                                            <Button onPress={this.handleLogin}>
-                                                <ButtonText>Entrar</ButtonText>
-                                            </Button>
-                                        </React.Fragment>
-                                }
-                            </InfoContainer>
+                            <LinearGradient
+                                style={{ flex: 1 }}
+                                colors={['#192f6a', '#3b5998', '#4c669f']}
+                            >
+                                <LogoContainer>
+                                    <Image source={require('../images/welcome_image.png')} />
+                                </LogoContainer>
+                                <InfoContainer>
+                                    {
+                                        isLoading
+                                            ?
+                                            <ActivityIndicator size='large' color='#f7c744' />
+                                            :
+                                            <React.Fragment>
+                                                <Input
+                                                    placeholder='E-mail'
+                                                    placeholderTextColor='rgba(255, 255, 255, 0.8)'
+                                                    returnKeyType='next'
+                                                    autoCorrect={false}
+                                                    autoCapitalize='none'
+                                                    keyboardType='email-address'
+                                                    onSubmitEditing={() => this.refs.inputPassword.focus()}
+                                                    blurOnSubmit={false}
+                                                    onChangeText={this.handleChange('email')}
+                                                    value={email}
+                                                />
+                                                <Input
+                                                    placeholder='Senha'
+                                                    placeholderTextColor='rgba(255, 255, 255, 0.8)'
+                                                    returnKeyType='go'
+                                                    autoCorrect={false}
+                                                    autoCapitalize='none'
+                                                    onSubmitEditing={() => this.handleLogin()}
+                                                    secureTextEntry
+                                                    ref={'inputPassword'}
+                                                    onChangeText={this.handleChange('password')}
+                                                    value={password}
+                                                />
+                                                <Button onPress={this.handleLogin}>
+                                                    <ButtonText>Entrar</ButtonText>
+                                                </Button>
+                                            </React.Fragment>
+                                    }
+                                </InfoContainer>
+                            </LinearGradient>
                         </Container>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>

@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { FlatList, Platform, StatusBar, ActivityIndicator, BackHandler, Alert } from 'react-native';
+import React, { PureComponent } from 'react'
+import { FlatList, Platform, StatusBar, ActivityIndicator, BackHandler, Alert } from 'react-native'
 import styled from 'styled-components'
 import { getNews } from '../../helpers/db'
 import FlatListItem from '../../components/FlatListItem'

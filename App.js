@@ -31,8 +31,8 @@ const Internal = createStackNavigator({
 })
 
 const Root = createSwitchNavigator({
-  //InitialScreen,
-  //LoginRegister,
+  InitialScreen,
+  LoginRegister,
   Internal
 })
 

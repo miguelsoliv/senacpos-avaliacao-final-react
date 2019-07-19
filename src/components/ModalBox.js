@@ -6,8 +6,8 @@ export default class ModalBox extends PureComponent {
     render() {
         return (
             <Modal
-                {...this.props}
                 animationType='fade'
+                {...this.props}
                 transparent
             >
                 <TouchableWithoutFeedback onPress={this.props.onPressDimmedView}>

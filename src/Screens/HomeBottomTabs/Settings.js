@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-    StatusBar, Platform, BackHandler, Alert, Switch, AsyncStorage,
-    TouchableHighlight, View, Text, TextInput, Image
+    StatusBar, Platform, BackHandler, Alert, Switch,
+    AsyncStorage, View, Text, TextInput
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import styled from 'styled-components'
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
 import ModalBox from '../../components/ModalBox'
 import CardView from '../../components/CardView'
 
@@ -12,6 +13,7 @@ class Settings extends Component {
     state = {
         modalVisible: false,
         notifications: false,
+        hibernation: false,
         username: 'Sample User',
         modalUsername: ''
     }
@@ -37,18 +39,32 @@ class Settings extends Component {
         })
     }
 
-    handleModalVisibility = visible => {
+    handleModalVisibility = () => {
         this.setState({
-            modalVisible: visible
+            modalVisible: !this.state.modalVisible
         })
     }
 
-    handleNotifications = newValue => {
+    handleNotifications = () => {
         this.setState({
-            notifications: newValue
+            notifications: !this.state.notifications
+        }, () => {
+            AsyncStorage.setItem('notifications', "" + !this.state.notifications)
         })
+    }
 
-        AsyncStorage.setItem('notifications', "" + newValue)
+    handleHibernation = () => {
+        this.setState({
+            hibernation: !this.state.hibernation
+        }, () => {
+            AsyncStorage.setItem('hibernation', "" + !this.state.hibernation)
+
+            if (this.state.hibernation) {
+                activateKeepAwake()
+            } else {
+                deactivateKeepAwake()
+            }
+        })
     }
 
     handleChange = type => text => {
@@ -58,6 +74,11 @@ class Settings extends Component {
     }
 
     updateName = () => {
+        if (!this.state.modalUsername) {
+            this.handleModalVisibility()
+            return
+        }
+
         this.setState({
             username: this.state.modalUsername,
             modalVisible: false
@@ -74,62 +95,67 @@ class Settings extends Component {
                 <StatusBar barStyle='light-content' />
                 <Container>
                     <CardView>
-                        <Text style={{
-                            marginLeft: 20,
-                            marginTop: 18,
-                            fontWeight: 'bold'
-                        }}
-                        >
-                            Nome de Usuário
-                        </Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableHighlight
-                                style={{
-                                    flex: 1,
-                                    alignSelf: 'stretch',
-                                    borderRadius: 6,
-                                    padding: 20
-                                }}
-                                onPress={() => this.handleModalVisibility(true)}
-                                underlayColor='rgba(247, 199, 68, 0.3)'
+                        <CardTitleText>Nome de Usuário</CardTitleText>
+                        <CardInfoContainer>
+                            <CardTouchableInput
+                                onPress={() => this.handleModalVisibility()}
+                                underlayColor='rgba(247, 199, 68, 0)'
                             >
                                 <View style={{ flexDirection: 'row' }}>
-                                    <TextLabel
-                                        style={{ flex: 1 }}
-                                        onValueChange={this.handleChange('username')}
-                                    >
+                                    <StyledTextInput onValueChange={this.handleChange('username')}>
                                         {this.state.username}
-                                    </TextLabel>
-                                    <Icon style={{ paddingLeft: 8 }} name='md-create' size={32}
-                                    />
+                                    </StyledTextInput>
+                                    <Icon style={{ paddingLeft: 8 }} name='md-create' size={32} />
                                 </View>
-                            </TouchableHighlight>
-                        </View>
+                            </CardTouchableInput>
+                        </CardInfoContainer>
                     </CardView>
 
                     <CardView>
-                        <View style={{ marginHorizontal: 20, paddingVertical: 18, flexDirection: 'row' }}>
-                            <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Notificações</Text>
-                                <Text style={{ marginLeft: 20 }}>Seja sempre notificado sobre as notícias do seu condomínio e imobiliária!</Text>
-                            </View>
+                        <CardTitleText>Notificações</CardTitleText>
+                        <CardInfoContainer>
+                            <Text style={{
+                                marginLeft: 20,
+                                flex: 1
+                            }}
+                            >
+                                Seja sempre notificado sobre as notícias do seu condomínio e imobiliária!
+                                </Text>
                             <Switch
                                 style={{ transform: [{ scaleX: 1.25 }, { scaleY: 1.25 }] }}
                                 trackColor={{ true: '#f7c744' }}
-                                onValueChange={(value) => this.handleNotifications(value)}
+                                onValueChange={() => this.handleNotifications()}
                                 value={this.state.notifications}
                             />
-                        </View>
+                        </CardInfoContainer>
+                    </CardView>
+
+                    <CardView>
+                        <CardTitleText>Hibernação</CardTitleText>
+                        <CardInfoContainer>
+                            <Text style={{
+                                marginLeft: 20,
+                                flex: 1
+                            }}
+                            >
+                                Permitir que o aplicativo não deixe o aparelho hibernar
+                                </Text>
+                            <Switch
+                                style={{ transform: [{ scaleX: 1.25 }, { scaleY: 1.25 }] }}
+                                trackColor={{ true: '#f7c744' }}
+                                onValueChange={() => this.handleHibernation()}
+                                value={this.state.hibernation}
+                            />
+                        </CardInfoContainer>
                     </CardView>
                 </Container>
 
                 <ModalBox
                     visible={this.state.modalVisible}
-                    onRequestClose={() => this.handleModalVisibility(false)}
-                    onPressDimmedView={() => this.handleModalVisibility(false)}
+                    onRequestClose={() => this.handleModalVisibility()}
+                    onPressDimmedView={() => this.handleModalVisibility()}
                 >
                     <Text style={{ fontWeight: 'bold' }}>Digite o seu nome</Text>
-
                     <ModalContainerInput>
                         <TextInput
                             autoFocus
@@ -140,7 +166,7 @@ class Settings extends Component {
                     <ModalContainerButtons>
                         <View style={{ alignItems: 'flex-end' }}>
                             <ModalButtonRed activeOpacity={0.7}
-                                onPress={() => this.handleModalVisibility(false)}>
+                                onPress={() => this.handleModalVisibility()}>
                                 <ButtonText>Cancelar</ButtonText>
                             </ModalButtonRed>
                         </View>
@@ -167,6 +193,12 @@ const Container = styled.View`
     align-items: center;
 `
 
+const CardInfoContainer = styled.View`
+    flex-direction: row;    
+    margin-horizontal: 20;
+    padding-vertical: 18;
+`
+
 const ModalContainerInput = styled.View`
     flex: 1;
     border-bottom-width: 1;
@@ -181,6 +213,12 @@ const ModalContainerButtons = styled.View`
     flex-direction: row;
     justify-content: flex-end;
     padding-top: 15;
+`
+
+const CardTouchableInput = styled.TouchableHighlight`
+    flex: 1;
+    align-self: stretch;
+    border-radius: 6;
 `
 
 const ModalButtonRed = styled.TouchableOpacity`
@@ -199,7 +237,14 @@ const ModalButtonGreen = styled.TouchableOpacity`
     margin-vertical: 10px;
 `
 
-const TextLabel = styled.Text`
+const CardTitleText = styled.Text`
+    margin-left: 20;
+    margin-top: 18;
+    font-weight: bold;
+`
+
+const StyledTextInput = styled.Text`
+    flex: 1;
     height: 40;
     background-color: #ffe066;
     border-radius: 4;

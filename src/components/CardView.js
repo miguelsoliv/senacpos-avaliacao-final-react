@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-export default class CardView extends PureComponent {
+class CardView extends PureComponent {
     render() {
         return (
             <CardCardContainer>
@@ -20,3 +20,5 @@ const CardCardContainer = styled.View`
     margin-horizontal: 20px;
     margin-vertical: 14px;
 `
+
+export default CardView

@@ -1,12 +1,12 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from 'react-native'
 
 export const initializeDb = async () => {
     await AsyncStorage.getItem('news') || await AsyncStorage.setItem('news', JSON.stringify([
-        { id: 1, date: '01-07-2019', title: 'Título Notícia 1', text: 'texttexttexttexttexttexttexttexttexttexttexttexttexttext' },
-        { id: 2, date: '03-07-2019', title: 'Título Notícia 2', text: 'Notice 2 text' },
-        { id: 3, date: '06-07-2019', title: "Título Notícia 3", text: 'Text for notice 3 with id = 3.' },
-        { id: 4, date: '15-07-2019', title: "Título Notícia 4", text: 'Sample text for notice 4.' },
-        { id: 5, date: '23-07-2019', title: "Título Notícia 5", text: '555555555555555555555555555555' }
+        { id: 1, date: '01-07-2019', title: 'Título Notícia 1', text: 'Texto Notícia 1.' },
+        { id: 2, date: '03-07-2019', title: 'Título Notícia 2', text: 'Texto Notícia 2.' },
+        { id: 3, date: '06-07-2019', title: "Título Notícia 3", text: 'Texto Notícia 3.' },
+        { id: 4, date: '15-07-2019', title: "Título Notícia 4", text: 'Texto Notícia 4.' },
+        { id: 5, date: '23-07-2019', title: "Título Notícia 5", text: 'Texto Notícia 5.' }
     ]))
 
     await AsyncStorage.getItem('users') || await AsyncStorage.setItem('users', JSON.stringify([
